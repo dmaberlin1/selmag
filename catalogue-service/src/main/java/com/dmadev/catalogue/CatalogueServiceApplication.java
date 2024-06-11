@@ -1,13 +1,13 @@
-package com.dmadev.manager;
+package com.dmadev.catalogue;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ManagerApplication {
+public class CatalogueServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ManagerApplication.class, args);
+		SpringApplication.run(CatalogueServiceApplication.class, args);
 	}
 
 }

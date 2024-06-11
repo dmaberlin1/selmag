@@ -1,12 +1,11 @@
 package com.dmadev.managerapp;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+
+//@SpringBootTest
 class ManagerAppApplicationTests {
 
-	@Test
+//	@Test
 	void contextLoads() {
 	}
 

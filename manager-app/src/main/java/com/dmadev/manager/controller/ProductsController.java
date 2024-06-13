@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.Objects;
 
 
 @Controller
@@ -28,11 +29,11 @@ public class ProductsController {
 
     @GetMapping("list")
     public String getProductsList(Model model,
-                                  @RequestParam(name = "filter", required = false) String filter,
-                                    Principal principal
+                                  @RequestParam(name = "filter", required = false) String filter
+//                                  ,Principal principal
                                   ) {
-        LoggerFactory.getLogger(ProductsController.class).info("Principal:{}",
-                ((JwtAuthenticationToken)principal).getToken().getClaimAsString("email"));
+//        LoggerFactory.getLogger(ProductsController.class).info("Principal:{}",
+//                ((JwtAuthenticationToken)principal).getToken().getClaimAsString("email"));
         model.addAttribute("products", this.productsRestClient.findAllProducts(filter));
         model.addAttribute("filter", filter);
         return "catalogue/products/list";
@@ -47,7 +48,8 @@ public class ProductsController {
     public String createProduct(NewProductPayload payload,
                                 Model model) {
         try {
-            Product product = this.productsRestClient.createProduct(payload.title(), payload.details());
+            Product product = this.productsRestClient.createProduct(payload.title().trim(),
+                    Objects.requireNonNullElse(payload.details(),"").trim());
             return "redirect:/catalogue/products/%d".formatted(product.id());
         } catch (BadRequestException exception) {
             model.addAttribute("payload", payload);

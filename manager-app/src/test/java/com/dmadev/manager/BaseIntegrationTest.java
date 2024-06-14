@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @AutoConfigureMockMvc(printOnlyOnFailure = false)
 @WireMockTest(httpPort = 54321)
+@RequiredArgsConstructor
 public class BaseIntegrationTest {
 
     @Autowired

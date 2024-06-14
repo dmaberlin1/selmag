@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Our products &ndash; Selmag</title>
+</head>
+<body>
+<h1>Our product</h1>
+<a data-th-href="@{/customer/products/favorites}">All products</a>
+<form action="">
+    <label>
+        Filter:
+        <input type="text" name="filter" data-th-value="${filter}">
+        <button type="submit">Поиск</button>
+    </label>
+</form>
+<ul>
+    <li data-th-each="product: ${products}">
+        <strong>
+            <a data-th-text="${product.title}"
+               data-th-href="@{/customer/products/{productId}(productId=${product.id})}"
+            ></a>
+            <p data-th-text="${product.details}"></p>
+        </strong>
+    </li>
+</ul>
+</body>
+</html>

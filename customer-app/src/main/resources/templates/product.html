@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> [[${product.title}]] &ndash; Selmag</title>
+</head>
+<body>
+<div>
+    <a data-th-href="@{/customer/products/list}">&larr; Return to Product's list</a>
+    <h1 data-th-text="${product.title}"></h1>
+    <p data-th-text="${product.details}"></p>
+</div>
+<div>
+    <form method="post"
+          data-th-action="@{/customer/products/{productId}/add-to-favorites(productId=${product.id})}"
+          data-th-if="${!inFavorite}">
+        <button type="submit">Add to <span>favorites</span></button>
+    </form>
+    <form method="post" data-th-action="@{/customer/products/{productId}/delete-from-favorites}"
+          data-th-if="${inFavorite}">
+        <button type="submit">delete from <span>favorites</span></button>
+    </form>
+</div>
+<div>
+    <h2>Reviews</h2>
+    <div data-th-if="${errors}">
+        <h3></h3>
+        <ul>
+            <li data-th-each="error: ${errors}" data-th-text="${error}"></li>
+        </ul>
+    </div>
+    <form method="post"
+          data-th-action="@{/customer/products/{productId}/create-review(productId=${product.id})}">
+        <label><input type="radio" name="rating" value="1">1</label>
+        <label><input type="radio" name="rating" value="2">2</label>
+        <label><input type="radio" name="rating" value="3">3</label>
+        <label><input type="radio" name="rating" value="4">4</label>
+        <label><input   type="radio" name="rating" value="5" checked>5</label>
+        <br>
+        <label>
+            Review: <br>
+            <textarea data-th-text="${payload?.review}" minlength="3" maxlength="2000" rows="5" cols="10"/>
+            <button type="submit">submit review</button>
+        </label>
+    </form>
+    <div data-th-each="review:${reviews}">
+        <h3>[[${review.rating}]]*</h3>
+        <p data-th-text="${review.review}"></p>
+    </div>
+</div>
+</body>
+</html>

@@ -29,3 +29,5 @@ docker run --name manager-db -p 5445:5432 -e POSTGRES_DB=manager -e POSTGRES_USE
 ```
 #### `-p 5445:5432 - перенаправляет порт 5445 на хосте на порт 5432 внутри контейнера.`
 
+
+

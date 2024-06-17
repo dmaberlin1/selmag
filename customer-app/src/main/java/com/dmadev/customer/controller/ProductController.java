@@ -10,16 +10,17 @@ import com.dmadev.customer.entity.Product;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.web.server.csrf.CsrfToken;
+import org.springframework.security.web.reactive.result.view.CsrfRequestDataValueProcessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.NoSuchElementException;
@@ -39,7 +40,9 @@ public class ProductController {
     @ModelAttribute(name = "product", binding = false)
     public Mono<Product> loadProduct(@PathVariable("productId") int id) {
         return this.productsClient.findProduct(id)
-                .switchIfEmpty(Mono.error(new NoSuchElementException("customer.products.error.not_found")));
+                .switchIfEmpty(Mono.defer(
+                        ()->Mono.error(new NoSuchElementException("customer.products.error.not_found"))
+                ));
     }
 
     @GetMapping
@@ -71,8 +74,8 @@ public class ProductController {
                 );
     }
 
-    @PostMapping("delete-from-favorites")
-    public Mono<String> deleteProductFromFavourites(@ModelAttribute("product") Mono<Product> productMono) {
+    @PostMapping("remove-from-favorites")
+    public Mono<String> removeProductFromFavourites(@ModelAttribute("product") Mono<Product> productMono) {
         return productMono
                 .map(Product::id)
                 .flatMap(productId -> this.favoritesProductClient.removeProductFromFavorites(productId)
@@ -103,6 +106,13 @@ public class ProductController {
         return "errors/404";
     }
 
+    @ModelAttribute
+    public Mono<CsrfToken> loadCsrfToken(ServerWebExchange exchange) {
+        return exchange.<Mono<CsrfToken>>getAttribute(CsrfToken.class.getName())
+                .doOnSuccess(token -> exchange.getAttributes()
+                        .put(CsrfRequestDataValueProcessor.DEFAULT_CSRF_ATTR_NAME,
+                                token));
+    }
 
     //eof
 }

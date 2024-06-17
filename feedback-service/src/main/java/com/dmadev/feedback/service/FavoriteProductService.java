@@ -8,11 +8,11 @@ import reactor.core.publisher.Mono;
 
 public interface FavoriteProductService {
 
-    Mono<FavoriteProduct> addProductToFavorites(int productId);
+    Mono<FavoriteProduct> addProductToFavorites(int productId,String userId);
 
-    Mono<Void> removeProductFromFavorites(int productId);
+    Mono<Void> removeProductFromFavorites(int productId,String userId);
 
-    Mono<FavoriteProduct> findFavoriteProductByProductId(int productId);
+    Mono<FavoriteProduct> findFavoriteProductByProductId(int productId, String userId);
 
-    Flux<FavoriteProduct> findFavoriteProducts();
+    Flux<FavoriteProduct> findFavoriteProducts(String userId);
 }

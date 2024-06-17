@@ -22,6 +22,12 @@ docker run --name catalogue-db -p 5444:5432 -e POSTGRES_DB=catalogue -e POSTGRES
 ```
 #### `-p 5444:5432 - перенаправляет порт 5444 на хосте на порт 5432 внутри контейнера.`
 
+MONGODB **feedback-db** in docker:
+```shell
+docker run --name feedback-db -p 27018:27017 mongo:7
+```
+#### `-p 5444:5432 - перенаправляет порт 27017 на хосте на порт 27017 внутри контейнера.`
+
 
 DB **manager-db** in docker:
 ```shell

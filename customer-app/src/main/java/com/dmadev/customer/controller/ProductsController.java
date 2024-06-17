@@ -3,7 +3,6 @@ package com.dmadev.customer.controller;
 import com.dmadev.customer.client.FavoritesProductClient;
 import com.dmadev.customer.client.ProductsClient;
 import com.dmadev.customer.entity.FavoriteProduct;
-import com.dmadev.customer.service.FavoriteProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

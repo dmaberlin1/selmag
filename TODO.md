@@ -7,3 +7,13 @@
 
 
 
+
+
+
+# mongo
+```shell 
+docker exec -it feedback-db mongosh feedback
+ db.product_review.find()
+ db.favorite_product.find()
+```
+

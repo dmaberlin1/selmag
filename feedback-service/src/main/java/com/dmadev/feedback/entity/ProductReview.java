@@ -13,6 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Document("product_review")
 public class ProductReview {
+
     @Id
     private UUID id;
 
@@ -20,4 +21,6 @@ public class ProductReview {
     private int rating;
     private String review;
     private String userId;
+
+
 }

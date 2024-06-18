@@ -10,6 +10,8 @@ import com.dmadev.customer.entity.Product;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.security.web.server.csrf.CsrfToken;
 import org.springframework.security.web.reactive.result.view.CsrfRequestDataValueProcessor;
 import org.springframework.stereotype.Controller;
@@ -41,7 +43,7 @@ public class ProductController {
     public Mono<Product> loadProduct(@PathVariable("productId") int id) {
         return this.productsClient.findProduct(id)
                 .switchIfEmpty(Mono.defer(
-                        ()->Mono.error(new NoSuchElementException("customer.products.error.not_found"))
+                        () -> Mono.error(new NoSuchElementException("customer.products.error.not_found"))
                 ));
     }
 
@@ -101,8 +103,11 @@ public class ProductController {
     }
 
     @ExceptionHandler(NoSuchElementException.class)
-    public String handleNoSuchElementException(NoSuchElementException exception, Model model) {
+    public String handleNoSuchElementException(NoSuchElementException exception,
+                                               Model model,
+                                               ServerHttpResponse response) {
         model.addAttribute("error", exception.getMessage());
+        response.setStatusCode(HttpStatus.NOT_FOUND);
         return "errors/404";
     }
 
